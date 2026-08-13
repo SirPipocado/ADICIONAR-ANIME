@@ -119,6 +119,12 @@ button:hover {
   <label>Total de episódios</label>
   <input id="epsTotais" type="number" value="12">
 
+  <label>Quantidade de temporadas</label>
+  <input id="qtdTemporadas" type="number" min="0" value="0">
+
+  <label>Quantidade de filmes</label>
+  <input id="qtdFilmes" type="number" min="0" value="0">
+
   <label>Link da imagem</label>
   <input id="img">
 
@@ -170,6 +176,12 @@ function gerarAnime() {
   const totais =
     document.getElementById("epsTotais").value || 0;
 
+  const qtdTemporadas =
+    parseInt(document.getElementById("qtdTemporadas").value) || 0;
+
+  const qtdFilmes =
+   parseInt(document.getElementById("qtdFilmes").value) || 0;
+
   const img =
     document.getElementById("img").value;
 
@@ -178,10 +190,44 @@ function gerarAnime() {
       .map(g => g.value)
       .join(", ");
 
+  let extras = "";
+
+if (qtdTemporadas > 0) {
+  const temporadas = [];
+
+  for (let i = 1; i <= qtdTemporadas; i++) {
+    temporadas.push(
+      `    { nome: "${i}ª Temporada", nota: null }`
+    );
+  }
+
+  extras += `,
+
+  temporadas: [
+${temporadas.join(",\n")}
+  ]`;
+}
+
+if (qtdFilmes > 0) {
+  const filmes = [];
+
+  for (let i = 1; i <= qtdFilmes; i++) {
+    filmes.push(
+      `    { nome: "Filme ${i}", nota: null }`
+    );
+  }
+
+  extras += `,
+
+  filmesNotas: [
+${filmes.join(",\n")}
+  ]`;
+}
+
   const resultado =
 `{
   nome: ${textoSeguro(nome)},
-  nota: 0.0,
+  nota: null,
   imdb: ${imdb.toFixed(1)},
   dublado: ${dublado},
   finalizado: false,
@@ -191,7 +237,7 @@ function gerarAnime() {
   eps: "0/${totais}",
   img: ${textoSeguro(img)},
   desc: "???",
-  genre: "${generos}"
+  genre: "${generos}"${extras}
 },`;
 
   document.getElementById("resultado").value = resultado;
