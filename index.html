@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Adicionar Anime</title>
 
 <style>
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #0f172a;
@@ -15,6 +23,8 @@ body {
 
 h1 {
   text-align: center;
+  margin-top: 0;
+  margin-bottom: 25px;
 }
 
 .container {
@@ -25,70 +35,184 @@ h1 {
   border-radius: 16px;
 }
 
-label {
+/* =========================
+   CAMPOS NORMAIS
+   ========================= */
+
+.field-label {
   display: block;
   margin-top: 15px;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-input,
+input[type="text"],
+input[type="number"],
 textarea {
   width: 100%;
-  box-sizing: border-box;
   padding: 10px;
+
   border-radius: 8px;
   border: 1px solid #334155;
+
   background: #0f172a;
   color: white;
+
+  outline: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  border-color: #3b82f6;
+}
+
+/* =========================
+   CHECKBOXES
+   ========================= */
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  flex: 0 0 16px;
+
+  accent-color: #3b82f6;
+  cursor: pointer;
 }
 
 .checks {
   display: flex;
   flex-wrap: wrap;
-  gap: 25px;
+  gap: 10px;
+
   margin-top: 10px;
 }
 
-.checks label {
+.check-option {
+  min-height: 36px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
   margin: 0;
+
+  padding: 8px 10px;
+
+  border: 1px solid #334155;
+  border-radius: 8px;
+
+  background: #172033;
+
   font-weight: normal;
+  font-size: 14px;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
+
+.check-option:hover {
+  background: #243147;
+}
+
+.check-option:has(input:checked) {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(96, 165, 250, 0.55);
+}
+
+/* =========================
+   GÊNEROS
+   ========================= */
 
 .generos {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
   gap: 8px;
+
   margin-top: 10px;
 }
 
-.generos label {
-  margin: 0;
-  font-weight: normal;
+.generos .check-option {
+  width: 100%;
+}
+
+/* =========================
+   BOTÕES
+   ========================= */
+
+.botoes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 button {
   margin-top: 20px;
+
   padding: 12px 18px;
+
   border: none;
   border-radius: 8px;
+
   cursor: pointer;
+
   font-weight: bold;
+
   background: #3b82f6;
   color: white;
+
+  transition: background 0.15s ease;
 }
 
 button:hover {
   background: #2563eb;
 }
 
+/* =========================
+   RESULTADO
+   ========================= */
+
 #resultado {
   margin-top: 20px;
+
   min-height: 300px;
+
   font-family: Consolas, monospace;
+
+  resize: vertical;
 }
+
+/* =========================
+   CELULAR
+   ========================= */
+
+@media (max-width: 600px) {
+
+  body {
+    padding: 15px;
+  }
+
+  .container {
+    padding: 18px;
+  }
+
+  .generos {
+    grid-template-columns: 1fr;
+  }
+
+}
+
 </style>
 </head>
+
 
 <body>
 
@@ -96,63 +220,209 @@ button:hover {
 
 <div class="container">
 
-  <label>Nome</label>
-  <input id="nome">
 
-  <label>Nota IMDB</label>
-  <input id="imdb" type="number" step="0.1" value="0">
+  <label class="field-label">Nome</label>
+  <input id="nome" type="text">
 
-  <label>Status</label>
+
+  <label class="field-label">Nota IMDB</label>
+  <input
+    id="imdb"
+    type="number"
+    step="0.1"
+    min="0"
+    max="10"
+    value="0"
+  >
+
+
+  <label class="field-label">Nota MyAnimeList</label>
+  <input
+    id="myAnimeList"
+    type="number"
+    step="0.1"
+    min="0"
+    max="10"
+    value="0"
+  >
+
+
+  <label class="field-label">Status</label>
 
   <div class="checks">
-    <label>
+
+    <label class="check-option">
       <input type="checkbox" id="dublado">
-      Dublado
+      <span>Dublado</span>
     </label>
 
-    <label>
+    <label class="check-option">
       <input type="checkbox" id="emLancamento">
-      Em lançamento
+      <span>Em lançamento</span>
     </label>
+
   </div>
 
-  <label>Total de episódios</label>
-  <input id="epsTotais" type="number" value="12">
 
-  <label>Quantidade de temporadas</label>
-  <input id="qtdTemporadas" type="number" min="0" value="0">
+  <label class="field-label">
+    Total de episódios
+  </label>
 
-  <label>Quantidade de filmes</label>
-  <input id="qtdFilmes" type="number" min="0" value="0">
+  <input
+    id="epsTotais"
+    type="number"
+    min="0"
+    value="12"
+  >
 
-  <label>Link da imagem</label>
-  <input id="img">
 
-  <label>Gêneros</label>
+  <label class="field-label">
+    Link da imagem
+  </label>
+
+  <input id="img" type="text">
+
+
+  <label class="field-label">
+    Gêneros
+  </label>
+
 
   <div class="generos">
-    <label><input type="checkbox" class="genero" value="1"> Romance</label>
-    <label><input type="checkbox" class="genero" value="2"> Ação</label>
 
-    <label><input type="checkbox" class="genero" value="3"> Ecchi</label>
-    <label><input type="checkbox" class="genero" value="4"> Comédia</label>
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="1">
+      <span>Romance</span>
+    </label>
 
-    <label><input type="checkbox" class="genero" value="5"> Isekai</label>
-    <label><input type="checkbox" class="genero" value="6"> Drama</label>
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="2">
+      <span>Ação</span>
+    </label>
 
-    <label><input type="checkbox" class="genero" value="7"> Fantasia</label>
-    <label><input type="checkbox" class="genero" value="8"> Sci-Fi</label>
 
-    <label><input type="checkbox" class="genero" value="9"> Slice of Life</label>
-    <label><input type="checkbox" class="genero" value="10"> Shounen</label>
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="3">
+      <span>Ecchi</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="4">
+      <span>Comédia</span>
+    </label>
+
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="5">
+      <span>Isekai</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="6">
+      <span>Drama</span>
+    </label>
+
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="7">
+      <span>Fantasia</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="8">
+      <span>Sci-Fi</span>
+    </label>
+
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="9">
+      <span>Slice of Life</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="10">
+      <span>Shounen</span>
+    </label>
+
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="11">
+      <span>Aventura</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="12">
+      <span>Sobrenatural</span>
+    </label>
+
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="13">
+      <span>Mistério</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="14">
+      <span>Psicológico</span>
+    </label>
+
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="15">
+      <span>Harem</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="16">
+      <span>Terror</span>
+    </label>
+
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="17">
+      <span>Mecha</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="18">
+      <span>Esportes</span>
+    </label>
+
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="19">
+      <span>Música</span>
+    </label>
+
+    <label class="check-option">
+      <input type="checkbox" class="genero" value="20">
+      <span>Escolar</span>
+    </label>
+
   </div>
 
-  <button onclick="gerarAnime()">⚙️ Gerar Anime</button>
-  <button onclick="copiarAnime()">📋 Copiar</button>
 
-  <textarea id="resultado" readonly></textarea>
+  <div class="botoes">
+
+    <button onclick="gerarAnime()">
+      ⚙️ Gerar Anime
+    </button>
+
+    <button onclick="copiarAnime()">
+      📋 Copiar
+    </button>
+
+  </div>
+
+
+  <textarea
+    id="resultado"
+    readonly
+  ></textarea>
+
 
 </div>
+
 
 <script>
 
@@ -160,75 +430,53 @@ function textoSeguro(texto) {
   return JSON.stringify(texto);
 }
 
+
 function gerarAnime() {
 
-  const nome = document.getElementById("nome").value;
+  const nome =
+    document.getElementById("nome").value;
+
 
   const imdb =
-    parseFloat(document.getElementById("imdb").value) || 0;
+    parseFloat(
+      document.getElementById("imdb").value
+    ) || 0;
+
+
+  const myAnimeList =
+    parseFloat(
+      document.getElementById("myAnimeList").value
+    ) || 0;
+
 
   const dublado =
     document.getElementById("dublado").checked;
 
+
   const emLancamento =
     document.getElementById("emLancamento").checked;
+
 
   const totais =
     document.getElementById("epsTotais").value || 0;
 
-  const qtdTemporadas =
-    parseInt(document.getElementById("qtdTemporadas").value) || 0;
-
-  const qtdFilmes =
-   parseInt(document.getElementById("qtdFilmes").value) || 0;
 
   const img =
     document.getElementById("img").value;
+
 
   const generos =
     [...document.querySelectorAll(".genero:checked")]
       .map(g => g.value)
       .join(", ");
 
-  let extras = "";
-
-if (qtdTemporadas > 0) {
-  const temporadas = [];
-
-  for (let i = 1; i <= qtdTemporadas; i++) {
-    temporadas.push(
-      `    { nome: "${i}ª Temporada", nota: null }`
-    );
-  }
-
-  extras += `,
-
-  temporadas: [
-${temporadas.join(",\n")}
-  ]`;
-}
-
-if (qtdFilmes > 0) {
-  const filmes = [];
-
-  for (let i = 1; i <= qtdFilmes; i++) {
-    filmes.push(
-      `    { nome: "Filme ${i}", nota: null }`
-    );
-  }
-
-  extras += `,
-
-  filmesNotas: [
-${filmes.join(",\n")}
-  ]`;
-}
 
   const resultado =
 `{
   nome: ${textoSeguro(nome)},
   nota: null,
   imdb: ${imdb.toFixed(1)},
+  MyAnimeList: ${myAnimeList.toFixed(1)},
   dublado: ${dublado},
   finalizado: false,
   emLancamento: ${emLancamento},
@@ -237,20 +485,25 @@ ${filmes.join(",\n")}
   eps: "0/${totais}",
   img: ${textoSeguro(img)},
   desc: "???",
-  genre: "${generos}"${extras}
+  genre: "${generos}"
 },`;
 
-  document.getElementById("resultado").value = resultado;
+
+  document.getElementById("resultado").value =
+    resultado;
 }
+
 
 function copiarAnime() {
 
   const resultado =
     document.getElementById("resultado");
 
+
   if (!resultado.value) {
     gerarAnime();
   }
+
 
   navigator.clipboard
     .writeText(resultado.value)
