@@ -35,10 +35,6 @@ h1 {
   border-radius: 16px;
 }
 
-/* =========================
-   CAMPOS NORMAIS
-   ========================= */
-
 .field-label {
   display: block;
   margin-top: 15px;
@@ -66,10 +62,6 @@ input[type="number"]:focus,
 textarea:focus {
   border-color: #3b82f6;
 }
-
-/* =========================
-   CHECKBOXES
-   ========================= */
 
 input[type="checkbox"] {
   width: 16px;
@@ -127,10 +119,6 @@ input[type="checkbox"] {
   border-color: rgba(96, 165, 250, 0.55);
 }
 
-/* =========================
-   GÊNEROS
-   ========================= */
-
 .generos {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -143,10 +131,6 @@ input[type="checkbox"] {
 .generos .check-option {
   width: 100%;
 }
-
-/* =========================
-   BOTÕES
-   ========================= */
 
 .botoes {
   display: flex;
@@ -176,10 +160,6 @@ button:hover {
   background: #2563eb;
 }
 
-/* =========================
-   RESULTADO
-   ========================= */
-
 #resultado {
   margin-top: 20px;
 
@@ -190,9 +170,35 @@ button:hover {
   resize: vertical;
 }
 
-/* =========================
-   CELULAR
-   ========================= */
+  .preview-container {
+  display: none;
+
+  margin-top: 12px;
+
+  width: 180px;
+
+  border: 1px solid #334155;
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  background: #0f172a;
+
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.preview-container.ativo {
+  display: block;
+}
+
+#previewImagem {
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 2 / 3;
+
+  object-fit: cover;
+}
 
 @media (max-width: 600px) {
 
@@ -276,11 +282,22 @@ button:hover {
   >
 
 
-  <label class="field-label">
-    Link da imagem
-  </label>
+ <label class="field-label">
+  Link da imagem
+</label>
 
-  <input id="img" type="text">
+<input
+  id="img"
+  type="text"
+  placeholder="Cole o link da imagem..."
+>
+
+<div class="preview-container" id="previewContainer">
+  <img
+    id="previewImagem"
+    alt="Prévia da imagem"
+  >
+</div>
 
 
   <label class="field-label">
@@ -430,6 +447,46 @@ function textoSeguro(texto) {
   return JSON.stringify(texto);
 }
 
+  const inputImagem =
+  document.getElementById("img");
+
+const previewContainer =
+  document.getElementById("previewContainer");
+
+const previewImagem =
+  document.getElementById("previewImagem");
+
+
+inputImagem.addEventListener("input", () => {
+
+  const url =
+    inputImagem.value.trim();
+
+  if (!url) {
+
+    previewContainer.classList.remove("ativo");
+
+    previewImagem.removeAttribute("src");
+
+    return;
+  }
+
+  previewImagem.src = url;
+});
+
+
+previewImagem.addEventListener("load", () => {
+
+  previewContainer.classList.add("ativo");
+
+});
+
+
+previewImagem.addEventListener("error", () => {
+
+  previewContainer.classList.remove("ativo");
+
+});
 
 function gerarAnime() {
 
