@@ -47,13 +47,10 @@ input[type="number"],
 textarea {
   width: 100%;
   padding: 10px;
-
   border-radius: 8px;
   border: 1px solid #334155;
-
   background: #0f172a;
   color: white;
-
   outline: none;
 }
 
@@ -66,11 +63,8 @@ textarea:focus {
 input[type="checkbox"] {
   width: 16px;
   height: 16px;
-
   margin: 0;
-
   flex: 0 0 16px;
-
   accent-color: #3b82f6;
   cursor: pointer;
 }
@@ -79,32 +73,23 @@ input[type="checkbox"] {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-
   margin-top: 10px;
 }
 
 .check-option {
   min-height: 36px;
-
   display: flex;
   align-items: center;
   gap: 9px;
-
   margin: 0;
-
   padding: 8px 10px;
-
   border: 1px solid #334155;
   border-radius: 8px;
-
   background: #172033;
-
   font-weight: normal;
   font-size: 14px;
-
   cursor: pointer;
   user-select: none;
-
   transition:
     background 0.15s ease,
     border-color 0.15s ease;
@@ -122,9 +107,7 @@ input[type="checkbox"] {
 .generos {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-
   gap: 8px;
-
   margin-top: 10px;
 }
 
@@ -140,50 +123,99 @@ input[type="checkbox"] {
 
 button {
   margin-top: 20px;
-
   padding: 12px 18px;
-
   border: none;
   border-radius: 8px;
-
   cursor: pointer;
-
   font-weight: bold;
-
   background: #3b82f6;
   color: white;
-
-  transition: background 0.15s ease;
+  transition:
+    background 0.15s ease,
+    opacity 0.15s ease;
 }
 
 button:hover {
   background: #2563eb;
 }
 
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dynamic-section {
+  margin-top: 15px;
+}
+
+.dynamic-card {
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background: #172033;
+}
+
+.dynamic-card:first-child {
+  margin-top: 0;
+}
+
+.dynamic-card-title {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.dynamic-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dynamic-actions button {
+  margin-top: 0;
+  padding: 9px 13px;
+}
+
+.btn-minus {
+  background: #475569;
+}
+
+.btn-minus:hover {
+  background: #334155;
+}
+
+.dynamic-hint {
+  margin-top: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.total-eps {
+  margin-top: 8px;
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.filme-nome {
+  margin-bottom: 8px;
+}
+
 #resultado {
   margin-top: 20px;
-
-  min-height: 300px;
-
+  min-height: 340px;
   font-family: Consolas, monospace;
-
   resize: vertical;
 }
 
-  .preview-container {
+.preview-container {
   display: none;
-
   margin-top: 12px;
-
   width: 180px;
-
   border: 1px solid #334155;
   border-radius: 12px;
-
   overflow: hidden;
-
   background: #0f172a;
-
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
 }
 
@@ -193,10 +225,8 @@ button:hover {
 
 #previewImagem {
   display: block;
-
   width: 100%;
   aspect-ratio: 2 / 3;
-
   object-fit: cover;
 }
 
@@ -219,17 +249,14 @@ button:hover {
 </style>
 </head>
 
-
 <body>
 
 <h1>➕ Adicionar Anime</h1>
 
 <div class="container">
 
-
   <label class="field-label">Nome</label>
   <input id="nome" type="text">
-
 
   <label class="field-label">Nota IMDB</label>
   <input
@@ -241,7 +268,6 @@ button:hover {
     value="0"
   >
 
-
   <label class="field-label">Nota MyAnimeList</label>
   <input
     id="myAnimeList"
@@ -251,7 +277,6 @@ button:hover {
     max="10"
     value="0"
   >
-
 
   <label class="field-label">Status</label>
 
@@ -269,41 +294,72 @@ button:hover {
 
   </div>
 
+  <label class="field-label">Temporadas</label>
+
+  <div class="dynamic-section">
+    <div id="temporadasContainer"></div>
+
+    <div class="dynamic-actions">
+      <button type="button" id="addTemporada" onclick="adicionarTemporada()">
+        +
+      </button>
+
+      <button
+        type="button"
+        id="removeTemporada"
+        class="btn-minus"
+        onclick="removerTemporada()"
+      >
+        −
+      </button>
+    </div>
+
+    <div class="total-eps" id="totalEpsTexto">
+      Total: 12 episódios
+    </div>
+  </div>
+
+  <label class="field-label">Filmes</label>
+
+  <div class="dynamic-section">
+    <div id="filmesContainer"></div>
+
+    <div class="dynamic-actions">
+      <button type="button" id="addFilme" onclick="adicionarFilme()">
+        +
+      </button>
+
+      <button
+        type="button"
+        id="removeFilme"
+        class="btn-minus"
+        onclick="removerFilme()"
+      >
+        −
+      </button>
+    </div>
+  </div>
 
   <label class="field-label">
-    Total de episódios
+    Link da imagem
   </label>
 
   <input
-    id="epsTotais"
-    type="number"
-    min="0"
-    value="12"
+    id="img"
+    type="text"
+    placeholder="Cole o link da imagem..."
   >
 
-
- <label class="field-label">
-  Link da imagem
-</label>
-
-<input
-  id="img"
-  type="text"
-  placeholder="Cole o link da imagem..."
->
-
-<div class="preview-container" id="previewContainer">
-  <img
-    id="previewImagem"
-    alt="Prévia da imagem"
-  >
-</div>
-
+  <div class="preview-container" id="previewContainer">
+    <img
+      id="previewImagem"
+      alt="Prévia da imagem"
+    >
+  </div>
 
   <label class="field-label">
     Gêneros
   </label>
-
 
   <div class="generos">
 
@@ -317,7 +373,6 @@ button:hover {
       <span>Ação</span>
     </label>
 
-
     <label class="check-option">
       <input type="checkbox" class="genero" value="3">
       <span>Ecchi</span>
@@ -327,7 +382,6 @@ button:hover {
       <input type="checkbox" class="genero" value="4">
       <span>Comédia</span>
     </label>
-
 
     <label class="check-option">
       <input type="checkbox" class="genero" value="5">
@@ -339,7 +393,6 @@ button:hover {
       <span>Drama</span>
     </label>
 
-
     <label class="check-option">
       <input type="checkbox" class="genero" value="7">
       <span>Fantasia</span>
@@ -349,7 +402,6 @@ button:hover {
       <input type="checkbox" class="genero" value="8">
       <span>Sci-Fi</span>
     </label>
-
 
     <label class="check-option">
       <input type="checkbox" class="genero" value="9">
@@ -361,7 +413,6 @@ button:hover {
       <span>Shounen</span>
     </label>
 
-
     <label class="check-option">
       <input type="checkbox" class="genero" value="11">
       <span>Aventura</span>
@@ -371,7 +422,6 @@ button:hover {
       <input type="checkbox" class="genero" value="12">
       <span>Sobrenatural</span>
     </label>
-
 
     <label class="check-option">
       <input type="checkbox" class="genero" value="13">
@@ -383,7 +433,6 @@ button:hover {
       <span>Psicológico</span>
     </label>
 
-
     <label class="check-option">
       <input type="checkbox" class="genero" value="15">
       <span>Harem</span>
@@ -394,7 +443,6 @@ button:hover {
       <span>Terror</span>
     </label>
 
-
     <label class="check-option">
       <input type="checkbox" class="genero" value="17">
       <span>Mecha</span>
@@ -404,7 +452,6 @@ button:hover {
       <input type="checkbox" class="genero" value="18">
       <span>Esportes</span>
     </label>
-
 
     <label class="check-option">
       <input type="checkbox" class="genero" value="19">
@@ -418,7 +465,6 @@ button:hover {
 
   </div>
 
-
   <div class="botoes">
 
     <button onclick="gerarAnime()">
@@ -431,23 +477,191 @@ button:hover {
 
   </div>
 
-
   <textarea
     id="resultado"
     readonly
   ></textarea>
 
-
 </div>
 
-
 <script>
+
+const MAX_TEMPORADAS = 10;
+const MAX_FILMES = 10;
+
+let quantidadeTemporadas = 1;
+let quantidadeFilmes = 0;
 
 function textoSeguro(texto) {
   return JSON.stringify(texto);
 }
 
-  const inputImagem =
+function nomeTemporada(numero) {
+  return `${numero}ª Temporada`;
+}
+
+function renderizarTemporadas() {
+
+  const container =
+    document.getElementById("temporadasContainer");
+
+  const valoresAtuais =
+    [...document.querySelectorAll(".temporada-eps")]
+      .map(input => input.value);
+
+  container.innerHTML = "";
+
+  for (let i = 1; i <= quantidadeTemporadas; i++) {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "dynamic-card";
+
+    const valor =
+      valoresAtuais[i - 1] ?? (i === 1 ? "12" : "12");
+
+    card.innerHTML = `
+      <div class="dynamic-card-title">
+        Temporada ${i}
+      </div>
+
+      <input
+        class="temporada-eps"
+        type="number"
+        min="0"
+        value="${valor}"
+        placeholder="Quantidade de episódios"
+        oninput="atualizarTotalEpisodios()"
+      >
+    `;
+
+    container.appendChild(card);
+  }
+
+  atualizarControlesTemporadas();
+  atualizarTotalEpisodios();
+}
+
+function adicionarTemporada() {
+
+  if (quantidadeTemporadas >= MAX_TEMPORADAS) {
+    return;
+  }
+
+  quantidadeTemporadas++;
+  renderizarTemporadas();
+}
+
+function removerTemporada() {
+
+  if (quantidadeTemporadas <= 1) {
+    return;
+  }
+
+  quantidadeTemporadas--;
+  renderizarTemporadas();
+}
+
+function atualizarControlesTemporadas() {
+
+  document.getElementById("addTemporada").disabled =
+    quantidadeTemporadas >= MAX_TEMPORADAS;
+
+  document.getElementById("removeTemporada").disabled =
+    quantidadeTemporadas <= 1;
+}
+
+function atualizarTotalEpisodios() {
+
+  const total =
+    [...document.querySelectorAll(".temporada-eps")]
+      .reduce((soma, input) => {
+        return soma + (parseInt(input.value, 10) || 0);
+      }, 0);
+
+  document.getElementById("totalEpsTexto").textContent =
+    `Total: ${total} episódio${total === 1 ? "" : "s"}`;
+}
+
+function renderizarFilmes() {
+
+  const container =
+    document.getElementById("filmesContainer");
+
+  const nomesAtuais =
+    [...document.querySelectorAll(".filme-nome")]
+      .map(input => input.value);
+
+  container.innerHTML = "";
+
+  for (let i = 1; i <= quantidadeFilmes; i++) {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "dynamic-card";
+
+    const nome =
+      nomesAtuais[i - 1] ?? "";
+
+    card.innerHTML = `
+      <div class="dynamic-card-title">
+        Filme ${i}
+      </div>
+
+      <input
+        class="filme-nome"
+        type="text"
+        value="${escaparHtmlAtributo(nome)}"
+        placeholder="Nome do filme"
+      >
+    `;
+
+    container.appendChild(card);
+  }
+
+  atualizarControlesFilmes();
+}
+
+function adicionarFilme() {
+
+  if (quantidadeFilmes >= MAX_FILMES) {
+    return;
+  }
+
+  quantidadeFilmes++;
+  renderizarFilmes();
+}
+
+function removerFilme() {
+
+  if (quantidadeFilmes <= 0) {
+    return;
+  }
+
+  quantidadeFilmes--;
+  renderizarFilmes();
+}
+
+function atualizarControlesFilmes() {
+
+  document.getElementById("addFilme").disabled =
+    quantidadeFilmes >= MAX_FILMES;
+
+  document.getElementById("removeFilme").disabled =
+    quantidadeFilmes <= 0;
+}
+
+function escaparHtmlAtributo(texto) {
+  return String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+const inputImagem =
   document.getElementById("img");
 
 const previewContainer =
@@ -455,7 +669,6 @@ const previewContainer =
 
 const previewImagem =
   document.getElementById("previewImagem");
-
 
 inputImagem.addEventListener("input", () => {
 
@@ -465,7 +678,6 @@ inputImagem.addEventListener("input", () => {
   if (!url) {
 
     previewContainer.classList.remove("ativo");
-
     previewImagem.removeAttribute("src");
 
     return;
@@ -474,18 +686,12 @@ inputImagem.addEventListener("input", () => {
   previewImagem.src = url;
 });
 
-
 previewImagem.addEventListener("load", () => {
-
   previewContainer.classList.add("ativo");
-
 });
 
-
 previewImagem.addEventListener("error", () => {
-
   previewContainer.classList.remove("ativo");
-
 });
 
 function gerarAnime() {
@@ -493,82 +699,115 @@ function gerarAnime() {
   const nome =
     document.getElementById("nome").value;
 
-
   const imdb =
     parseFloat(
       document.getElementById("imdb").value
     ) || 0;
-
 
   const myAnimeList =
     parseFloat(
       document.getElementById("myAnimeList").value
     ) || 0;
 
-
   const dublado =
     document.getElementById("dublado").checked;
-
 
   const emLancamento =
     document.getElementById("emLancamento").checked;
 
+  const temporadas =
+    [...document.querySelectorAll(".temporada-eps")];
 
   const totais =
-    document.getElementById("epsTotais").value || 0;
+    temporadas.reduce((soma, input) => {
+      return soma + (parseInt(input.value, 10) || 0);
+    }, 0);
 
+  const filmes =
+    [...document.querySelectorAll(".filme-nome")]
+      .map(input => input.value.trim())
+      .filter(nomeFilme => nomeFilme !== "");
 
   const img =
     document.getElementById("img").value;
-
 
   const generos =
     [...document.querySelectorAll(".genero:checked")]
       .map(g => g.value)
       .join(", ");
 
+  const linhas = [
+    "  {",
+    `    nome: ${textoSeguro(nome)},`,
+    "    nota: null,",
+    `    imdb: ${imdb.toFixed(1)},`,
+    `    MyAnimeList: ${myAnimeList.toFixed(1)},`,
+    `    dublado: ${dublado},`,
+    "    finalizado: false,",
+    `    emLancamento: ${emLancamento},`,
+    "    dropado: false,",
+    "    brutal: false,",
+    `    eps: "0/${totais}",`,
+    `    img: ${textoSeguro(img)},`,
+    '    desc: "???",',
+    `    genre: "${generos}",`,
+    "    temporadas: ["
+  ];
 
-  const resultado =
-`{
-  nome: ${textoSeguro(nome)},
-  nota: null,
-  imdb: ${imdb.toFixed(1)},
-  MyAnimeList: ${myAnimeList.toFixed(1)},
-  dublado: ${dublado},
-  finalizado: false,
-  emLancamento: ${emLancamento},
-  dropado: false,
-  brutal: false,
-  eps: "0/${totais}",
-  img: ${textoSeguro(img)},
-  desc: "???",
-  genre: "${generos}"
-},`;
+  for (let i = 0; i < quantidadeTemporadas; i++) {
 
+    const virgula =
+      i < quantidadeTemporadas - 1 ? "," : "";
+
+    linhas.push(
+      `      { nome: ${textoSeguro(nomeTemporada(i + 1))}, nota: null }${virgula}`
+    );
+  }
+
+  linhas.push("    ]");
+
+  if (filmes.length > 0) {
+
+    linhas[linhas.length - 1] += ",";
+    linhas.push("    filmesNotas: [");
+
+    filmes.forEach((nomeFilme, index) => {
+
+      const virgula =
+        index < filmes.length - 1 ? "," : "";
+
+      linhas.push(
+        `      { nome: ${textoSeguro(nomeFilme)}, nota: null }${virgula}`
+      );
+    });
+
+    linhas.push("    ]");
+  }
+
+  linhas.push("  },");
 
   document.getElementById("resultado").value =
-    resultado;
+    linhas.join("\n");
 }
-
 
 function copiarAnime() {
 
   const resultado =
     document.getElementById("resultado");
 
-
   if (!resultado.value) {
     gerarAnime();
   }
-
 
   navigator.clipboard
     .writeText(resultado.value)
     .then(() => {
       alert("Anime copiado! 🍿");
     });
-
 }
+
+renderizarTemporadas();
+renderizarFilmes();
 
 </script>
 
